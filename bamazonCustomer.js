@@ -2,7 +2,8 @@ var mysql = require("mysql");
 var inquirer = require("inquirer");
 var Table = require("cli-table");
 
-
+var totalpurchase = 0;
+var totalCost;
 // create the connection information for the sql database
 var connection = mysql.createConnection({
   host: "localhost",
@@ -21,19 +22,19 @@ connection.connect(function(err) {
 //=========================DISPLAY ALL ITEM==========================
 function displayandBuy(){
       connection.query('SELECT * FROM products', function (err, res){
-      console.log (res)
-      //CREATE TABLE FOR DISPLAY
-      // var table = new Table ({
-      //   head: ['id', 'product_name', 'department_name', 'price', 'stock_quantity'],
-      //   colWidths: [10, 40, 40, 10, 10]
-      // });
-      // console.log("ITEM FOR SALE")
-      // console.log("=========================================")
-      // for(i = 0; i < res.length; i++){
-      //   table.push(res[i].id, res[i].product_name,res[i].department_name, res[i].price, res[i].stock_quantity)
-      // }
-      // console.log("==============================================")
-      // console.log(table.toString())
+      // CREATE TABLE FOR DISPLAY
+      var table = new Table ({
+        head: ['id', 'product_name', 'department_name', 'price', 'stock_quantity'],
+        colWidths: [10, 40, 40, 10, 10]
+      });
+      console.log("ITEM FOR SALE")
+      console.log("=========================================")
+      console.log(res[0].id)
+      for(i = 0; i < res.length; i++){
+        table.push([res[i].id, res[i].product_name,res[i].department_name, res[i].price, res[i].stock_quantity])
+      }
+      console.log("==============================================")
+      console.log(table.toString())
 
 
 //========================BUYING ITEM================================
@@ -55,6 +56,9 @@ inquirer.prompt([
   var choice = answer.id - 1;
   var chosenProduct = res[choice];
   var answerQuantity =answer.Quantity;
+  var answerPrice = answer.price;
+  var totalPrize = answerQuantity * answerPrice;
+    totalCost = totalPrize += totalpurchase;
   //update the quantity after PURCHASE
   if(answerQuantity < res[choice].stock_quantity){
     console.log("Your Order has been placed")
@@ -66,6 +70,7 @@ inquirer.prompt([
     }],
     function(err, res){
       displayandBuy();
+      console.log ("YOUR TOTAL COST IS: " + totalCost);
     })
 
 

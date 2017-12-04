@@ -6,7 +6,7 @@ CREATE DATABASE bamazon_db;
 use bamazon_db;
 
 create table products (
-	id integer(12) auto_increment not null,
+		id integer(12) auto_increment not null,
     product_name varchar(30) not null,
     department_name varchar(30) not null,
     price integer (12) not null,
@@ -24,6 +24,3 @@ values ("Lord of the Ring", "Movie", 30, 2);
 
 insert into products (product_name, department_name, price, stock_quantity)
 values ("Flat Earth", "book", 30, 10);
-
-
-
